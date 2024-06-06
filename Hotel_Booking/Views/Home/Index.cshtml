@@ -1,8 +1,19 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Trang chủ";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@model IEnumerable<Hotel_Booking.Models.Domains.Room>
+
+<div class="home d-flex gap-2">
+    @foreach (var room in Model)
+    {
+        <a class="room card" 
+             asp-controller="Home"
+             asp-route-id="@room.Id" style="width: 20%">
+          <div class="container">
+                <h4><b>@room.Name</b></h4>
+                <p>@room.Price</p>
+          </div>
+        </a>
+    }
 </div>

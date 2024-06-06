@@ -1,32 +1,29 @@
-﻿using Hotel_Booking.Models;
+﻿using Hotel_Booking.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace Hotel_Booking.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IRoomRepository _roomRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IRoomRepository roomRepository)
         {
-            _logger = logger;
+            this._logger = logger;
+            this._roomRepository = roomRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var rooms = await _roomRepository.GetAllAsync();
+
+            return View(rooms);
         }
 
         public IActionResult Privacy()
         {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
