@@ -5,6 +5,10 @@
 @using Microsoft.AspNetCore.Identity
 @model IdentityUser
 
+@{
+    var UserRoles = Context.Session.GetString("CurrentUserRoles").Split(',');
+}
+
 <div class="user-profile d-flex justify-content-between gap-3">
     <div class="user-profile-avatar w-25">
         <img src="https://picsum.photos/id/237/200/300" alt="user-avatar" style="width: 100%" />
@@ -21,6 +25,13 @@
         <div class="mt-3">
             <label class="form-label">Số điện thoại</label>
             <input type="text" readonly class="form-control" asp-for="@Model.PhoneNumber" />
+        </div>
+        <div class="mt-3">
+            <label class="form-label">Phân quyền người dùng</label>
+            @foreach (var Role in UserRoles)
+            {
+                <p>@Role</p>
+            }
         </div>
     </div>
 </div>

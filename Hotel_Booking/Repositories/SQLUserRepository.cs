@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Hotel_Booking.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -7,10 +9,68 @@ namespace Hotel_Booking.Repositories
     public class SQLUserRepository : IUserRepository
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly HotelBookingAuthDBContext _dBAuthContext;
 
-        public SQLUserRepository(UserManager<IdentityUser> userManager)
+        public SQLUserRepository(UserManager<IdentityUser> userManager, HotelBookingAuthDBContext dBAuthContext)
         {
             this.userManager = userManager;
+            this._dBAuthContext = dBAuthContext;
+        }
+
+        public async Task<IdentityUser> AddNewAsync(IdentityUser user)
+        {
+            await _dBAuthContext.Users.AddAsync(user);
+            await _dBAuthContext.SaveChangesAsync();
+            return user;
+        }
+
+        public async Task<IdentityUser?> DeleteByIdAsync(string id)
+        {
+            var existingUser = await _dBAuthContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingUser == null)
+            {
+                return null;
+            }
+
+            _dBAuthContext.Users.Remove(existingUser);
+            await _dBAuthContext.SaveChangesAsync();
+            return existingUser;
+        }
+
+        public async Task<List<IdentityUser>> GetAllAsync()
+        {
+            var users = await _dBAuthContext.Users.ToListAsync();
+            return users;
+        }
+
+        public async Task<IdentityUser?> GetByIdAsync(string id)
+        {
+            var user = await _dBAuthContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            return user;
+        }
+
+        public async Task<IdentityUser?> UpdateyIdAsync(string id, IdentityUser user)
+        {
+
+            var existingUser = await _dBAuthContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingUser == null)
+            {
+                return null;
+            }
+
+            existingUser.PhoneNumber = user.PhoneNumber;
+
+            await _dBAuthContext.SaveChangesAsync();
+
+            return existingUser;
         }
 
         public async Task<IdentityUser> GetByJwtToken(string jwtToken)
@@ -57,6 +117,6 @@ namespace Hotel_Booking.Repositories
             }
 
             return roles;
-        }
+        } 
     }
 }
