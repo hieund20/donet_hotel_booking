@@ -15,6 +15,13 @@
                 <p>@room.RoomType</p>
                 <p>@room.Price</p>
           </div>
+            <form asp-controller="Bookings"
+                  asp-action="Add"
+                  method="post"
+                  class="mt-2">
+                <input type="hidden" name="RoomId" value="@room.Id" />
+                <button type="submit" class="btn btn-primary">Đặt phòng</button>
+            </form>
         </a>
     }
 </div>

@@ -18,6 +18,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IRoomRepository, SQLRoomRepository>();
 builder.Services.AddScoped<IHotelRepository, SQLHotelRepository>();
+builder.Services.AddScoped<IBookingRepository, SQLBookingRepository>();
 builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
@@ -30,7 +31,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddIdentityCore<IdentityUser>()
                 .AddRoles<IdentityRole>()
-                .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("HotelBokking")
+                .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("HotelBooking")
                 .AddEntityFrameworkStores<HotelBookingAuthDBContext>()
                 .AddDefaultTokenProviders();
 
