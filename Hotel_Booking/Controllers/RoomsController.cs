@@ -1,7 +1,6 @@
 ﻿using Hotel_Booking.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Hotel_Booking.Models.Domains;
-using System.Net.Http;
 
 namespace Hotel_Booking.Controllers
 {

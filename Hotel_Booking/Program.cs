@@ -1,6 +1,10 @@
 using Hotel_Booking.Data;
 using Hotel_Booking.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,11 +12,39 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<HotelBookingDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelBookingDBContext")));
+builder.Services.AddDbContext<HotelBookingAuthDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("HotelBookingAuthDBContext")));
 
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IRoomRepository, SQLRoomRepository>();
+builder.Services.AddScoped<IHotelRepository, SQLHotelRepository>();
+builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddIdentityCore<IdentityUser>()
+                .AddRoles<IdentityRole>()
+                .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("HotelBokking")
+                .AddEntityFrameworkStores<HotelBookingAuthDBContext>()
+                .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                                    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+                                    {
+                                        ValidateIssuer = true,
+                                        ValidateAudience = true,
+                                        ValidateLifetime = true,
+                                        ValidateIssuerSigningKey = true,
+                                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                                    });
 
 var app = builder.Build();
 
@@ -29,7 +61,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
