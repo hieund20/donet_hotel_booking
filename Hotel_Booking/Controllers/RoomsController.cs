@@ -20,6 +20,14 @@ namespace Hotel_Booking.Controllers
             return View(rooms);
         }
 
+        [HttpGet("GetAllByHotelId/{hotelId}")]
+        public async Task<IActionResult> GetAllByHotelId([FromRoute] Guid hotelId)
+        {
+            var rooms = await _roomRepository.GetAllByHotelIdAsync(hotelId);
+
+            return View("ClientRoomsView", rooms);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Detail(Guid id)
         {

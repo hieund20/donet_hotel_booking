@@ -4,6 +4,7 @@ using Hotel_Booking.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel_Booking.Migrations
 {
     [DbContext(typeof(HotelBookingDBContext))]
-    partial class HotelBookingDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240609082623_AddHotelImageModel")]
+    partial class AddHotelImageModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,40 +24,6 @@ namespace Hotel_Booking.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Hotel_Booking.Models.Domain.HotelImage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("FileDesciption")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileExtension")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("FileSizeInBytes")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("HotelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HotelId");
-
-                    b.ToTable("HotelImages");
-                });
 
             modelBuilder.Entity("Hotel_Booking.Models.Domains.Booking", b =>
                 {
@@ -218,17 +187,6 @@ namespace Hotel_Booking.Migrations
                     b.HasIndex("HotelId");
 
                     b.ToTable("Rooms");
-                });
-
-            modelBuilder.Entity("Hotel_Booking.Models.Domain.HotelImage", b =>
-                {
-                    b.HasOne("Hotel_Booking.Models.Domains.Hotel", "Hotel")
-                        .WithMany()
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("Hotel_Booking.Models.Domains.Booking", b =>

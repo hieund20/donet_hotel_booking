@@ -34,6 +34,25 @@ namespace Hotel_Booking.Repositories
             return existingBooking;
         }
 
+        public async Task<bool> DeleteRangeByUserIdAsync(string userId)
+        {
+            try
+            {
+                var bookings = await _dBContext.Bookings.Where(x => x.CustomerId == userId).ToListAsync();
+                if (bookings.Any())
+                {
+                    _dBContext.Bookings.RemoveRange(bookings);
+                }
+                await _dBContext.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public async Task<List<Booking>> GetAllAsync()
         {
             var bookings = await _dBContext.Bookings.ToListAsync();

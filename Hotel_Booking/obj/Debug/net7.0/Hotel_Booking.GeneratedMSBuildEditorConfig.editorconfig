@@ -46,6 +46,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Tan_MVC_QLKS/Hotel_Booking/Hotel_Booking/Views/HotelImages/Add.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxJbWFnZXNcQWRkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Tan_MVC_QLKS/Hotel_Booking/Hotel_Booking/Views/HotelImages/AdminHotelImagesView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxJbWFnZXNcQWRtaW5Ib3RlbEltYWdlc1ZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Tan_MVC_QLKS/Hotel_Booking/Hotel_Booking/Views/Hotels/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG90ZWxzXEFkZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -64,6 +72,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Tan_MVC_QLKS/Hotel_Booking/Hotel_Booking/Views/Rooms/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcQWRkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Tan_MVC_QLKS/Hotel_Booking/Hotel_Booking/Views/Rooms/ClientRoomsView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcQ2xpZW50Um9vbXNWaWV3LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Tan_MVC_QLKS/Hotel_Booking/Hotel_Booking/Views/Rooms/Detail.cshtml]

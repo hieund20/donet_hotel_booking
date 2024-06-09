@@ -3945,6 +3945,7 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "Microsoft.AspNetCore.Authentication.Cookies >= 2.2.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 7.0.20",
       "Microsoft.AspNetCore.Identity >= 2.2.0",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 7.0.20",
@@ -3998,6 +3999,10 @@
       "net7.0": {
         "targetAlias": "net7.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Cookies": {
+            "target": "Package",
+            "version": "[2.2.0, )"
+          },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
             "version": "[7.0.20, )"

@@ -1,6 +1,5 @@
 ﻿using Hotel_Booking.Data;
 using Hotel_Booking.Models.Domains;
-using Hotel_Booking.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotel_Booking.Repositories
@@ -38,6 +37,12 @@ namespace Hotel_Booking.Repositories
         public async Task<List<Room>> GetAllAsync()
         {
             var rooms = await _dBContext.Rooms.ToListAsync();
+            return rooms;
+        }
+
+        public async Task<List<Room>> GetAllByHotelIdAsync(Guid hotelId)
+        {
+            var rooms = await _dBContext.Rooms.Where(x => x.HotelId == hotelId).ToListAsync();
             return rooms;
         }
 

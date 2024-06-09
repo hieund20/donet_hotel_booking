@@ -25,6 +25,10 @@
             <span><b>Email</b></span>
             <p>@Model.Email</p>
         </div>
+
+        <a asp-controller="Rooms"
+           asp-action="GetAllByHotelId"
+           asp-route-hotelId="@Model.Id">Xem phòng</a>
     </div>
 }
 

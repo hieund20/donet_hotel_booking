@@ -5,6 +5,7 @@ namespace Hotel_Booking.Repositories
     public interface IRoomRepository
     {
         Task<List<Room>> GetAllAsync();
+        Task<List<Room>> GetAllByHotelIdAsync(Guid hotelId);
         Task<Room?> GetByIdAsync(Guid id);
         Task<Room> AddNewAsync(Room room);
         Task<Room?> UpdateyIdAsync(Guid id, Room room);

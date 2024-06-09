@@ -6,19 +6,19 @@ namespace Hotel_Booking.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IRoomRepository _roomRepository;
+        private readonly IHotelRepository _hotelRepository;
 
-        public HomeController(ILogger<HomeController> logger, IRoomRepository roomRepository)
+        public HomeController(ILogger<HomeController> logger, IHotelRepository hotelRepository)
         {
             this._logger = logger;
-            this._roomRepository = roomRepository;
+            this._hotelRepository = hotelRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            var rooms = await _roomRepository.GetAllAsync();
+            var hotels = await _hotelRepository.GetAllAsync();
 
-            return View(rooms);
+            return View(hotels);
         }
 
         public IActionResult Privacy()

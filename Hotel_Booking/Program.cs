@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Hotel_Booking.Providers;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +24,15 @@ builder.Services.AddScoped<IHotelRepository, SQLHotelRepository>();
 builder.Services.AddScoped<IBookingRepository, SQLBookingRepository>();
 builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IHotelImageRepository, LocalHotelImageRepository>();
+builder.Services.AddScoped<SignInManager<IdentityUser>>();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Auth/Login";
+            });
 
 builder.Services.AddSession(options =>
 {
@@ -46,6 +58,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                                         ValidAudience = builder.Configuration["Jwt:Audience"],
                                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                                     });
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

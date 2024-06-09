@@ -41,4 +41,12 @@
     </tbody>
 </table>
 
-<button class="btn btn-primary">Xác nhận</button>
+<div class="d-flex align-items-center">
+    @*Xác nhận, chuyển đến trang mới Payment, thực hiện thanh toán, sau khi thanh toán, 
+    lưu danh sách phòng đã đặt vào Booking History*@
+    <button class="btn btn-primary">Xác nhận</button>
+    <form asp-controller="Bookings" asp-action="Cancel" method="post" class="ml-2">
+        <button type="submit" class="btn btn-danger">Hủy</button>
+    </form>
+</div>
+

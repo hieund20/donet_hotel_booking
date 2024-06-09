@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v7.0": {
       "Hotel_Booking/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Cookies": "2.2.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.20",
           "Microsoft.AspNetCore.Identity": "2.2.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "7.0.20",

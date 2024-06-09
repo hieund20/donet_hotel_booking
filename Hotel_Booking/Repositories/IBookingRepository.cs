@@ -9,5 +9,6 @@ namespace Hotel_Booking.Repositories
         Task<Booking> AddNewAsync(Booking booking);
         Task<Booking?> UpdateyIdAsync(Guid id, Booking booking);
         Task<Booking?> DeleteByIdAsync(Guid id);
+        Task<bool> DeleteRangeByUserIdAsync(string userId);
     }
 }

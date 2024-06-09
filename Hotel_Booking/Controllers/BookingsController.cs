@@ -1,6 +1,5 @@
 ﻿using Hotel_Booking.Models.Domains;
 using Hotel_Booking.Repositories;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -9,12 +8,10 @@ namespace Hotel_Booking.Controllers
     public class BookingsController : Controller
     {
         private readonly IBookingRepository _bookingRepository;
-        private readonly UserManager<IdentityUser> _userManager;
 
-        public BookingsController(IBookingRepository bookingRepository, UserManager<IdentityUser> userManager)
+        public BookingsController(IBookingRepository bookingRepository)
         {
             this._bookingRepository = bookingRepository;
-            this._userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -38,6 +35,14 @@ namespace Hotel_Booking.Controllers
             {
                 return Unauthorized();
             }
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            string userId = userIdClaim.Value;
 
             Booking newBooking = new Booking();
             newBooking.Id = Guid.NewGuid();
@@ -98,6 +103,27 @@ namespace Hotel_Booking.Controllers
             }
 
             return View("Edit");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Cancel()
+        {
+            var userId = HttpContext.Session.GetString("CurrentUserId").ToString();
+
+            if (String.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var isDelete = await _bookingRepository.DeleteRangeByUserIdAsync(userId);
+
+            if (isDelete == true)
+            {
+                return RedirectToAction("Index", "Home");
+
+            }
+
+            return View("Index");
         }
     }
 }
