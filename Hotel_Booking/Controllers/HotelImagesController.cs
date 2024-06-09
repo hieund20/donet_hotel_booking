@@ -1,4 +1,5 @@
-﻿using Hotel_Booking.Models.Domains;
+﻿using Azure.Core;
+using Hotel_Booking.Models.Domains;
 using Hotel_Booking.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,27 +28,30 @@ namespace Hotel_Booking.Controllers
             return View("AdminHotelImagesView", images);
         }
 
-        [HttpGet()]
-        public IActionResult Add([FromRoute]Guid hotelId)
+        [HttpGet]
+        public IActionResult Add([FromQuery]Guid hotelId)
         {
             ViewBag.HotelId = hotelId;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(HotelImage model)
+        public async Task<IActionResult> Add(HotelImage request)
         {
             HotelImage image = new HotelImage();
             image.Id = Guid.NewGuid();
-            image.FileName = model.FileName;
-            image.FileDesciption = model.FileDesciption;
-            image.HotelId = model.HotelId;
+            image.FileName = request.FileName;
+            image.FileDesciption = request.FileDesciption;
+            image.HotelId = request.HotelId;
+            image.File = request.File;
+            image.FileExtension = Path.GetExtension(request.File.FileName);
+            image.FileSizeInBytes = request.File.Length;
 
             var result = await _hotelImageRepository.Upload(image);
 
             if (result is not null)
             {
-                var images = await _hotelImageRepository.GetAllByHotelIdAsync(model.HotelId);
+                var images = await _hotelImageRepository.GetAllByHotelIdAsync(request.HotelId);
 
                 return View("AdminHotelImagesView", images);
             }

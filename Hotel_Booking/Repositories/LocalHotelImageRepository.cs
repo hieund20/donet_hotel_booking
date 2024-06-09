@@ -55,21 +55,29 @@ namespace Hotel_Booking.Repositories
 
         public async Task<HotelImage> Upload(HotelImage image)
         {
-            var localFilePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images", $"{image.FileName}{image.FileExtension}");
+            if (image.File != null && image.File.Length > 0)
+            {
+                var localFilePath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images", $"{image.FileName}{image.FileExtension}");
 
-            //Upload Image to Local Path
-            using var stream = new FileStream(localFilePath, FileMode.Create);
-            await image.File.CopyToAsync(stream);
+                //Upload Image to Local Path
+                using var stream = new FileStream(localFilePath, FileMode.Create);
+                await image.File.CopyToAsync(stream);
 
-            //https://localhost:1234/images/image.jpg
-            var urlFilePath = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}/Images/{image.FileName}{image.FileExtension}";
-            image.FilePath = urlFilePath;
+                //https://localhost:1234/images/image.jpg
+                var urlFilePath = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}{_httpContextAccessor.HttpContext.Request.PathBase}/Images/{image.FileName}{image.FileExtension}";
+                image.FilePath = urlFilePath;
 
-            //Add Image to the Image table
-            _dBContext.HotelImages.Add(image);
-            await _dBContext.SaveChangesAsync();
+                //Add Image to the Image table
+                _dBContext.HotelImages.Add(image);
+                await _dBContext.SaveChangesAsync();
 
-            return image;
+                return image;
+            }
+            else
+            {
+                // Handle when image.File is null or empty
+                throw new ArgumentException("No file or empty file provided.");
+            }
         }
     }
 }
