@@ -48,6 +48,11 @@ namespace Hotel_Booking.Repositories
             return result;
         }
 
+        public async Task<HotelImage?> GetByHotelIdAsync(Guid hotel)
+        {
+            return await _dBContext.HotelImages.FirstOrDefaultAsync(x => x.HotelId == hotel);
+        }
+
         public async Task<HotelImage?> GetByIdAsync(Guid id)
         {
             return await _dBContext.HotelImages.Include(x => x.Hotel).FirstOrDefaultAsync(x => x.Id == id);
