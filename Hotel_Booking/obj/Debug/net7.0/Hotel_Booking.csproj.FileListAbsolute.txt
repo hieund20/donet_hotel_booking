@@ -81,3 +81,5 @@ D:\Tan_MVC_QLKS\Hotel_Booking\Hotel_Booking\obj\Debug\net7.0\refint\Hotel_Bookin
 D:\Tan_MVC_QLKS\Hotel_Booking\Hotel_Booking\obj\Debug\net7.0\Hotel_Booking.pdb
 D:\Tan_MVC_QLKS\Hotel_Booking\Hotel_Booking\obj\Debug\net7.0\Hotel_Booking.genruntimeconfig.cache
 D:\Tan_MVC_QLKS\Hotel_Booking\Hotel_Booking\obj\Debug\net7.0\ref\Hotel_Booking.dll
+D:\Tan_MVC_QLKS\Hotel_Booking\Hotel_Booking\bin\Debug\net7.0\JsonDatas\ProvicesJsonData.json
+D:\Tan_MVC_QLKS\Hotel_Booking\Hotel_Booking\bin\Debug\net7.0\Newtonsoft.Json.dll

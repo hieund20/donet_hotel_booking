@@ -1,7 +1,7 @@
 ﻿using Hotel_Booking.Models.DTO;
 using Hotel_Booking.Repositories;
+using Hotel_Booking.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
 
 namespace Hotel_Booking.Controllers
 {
@@ -10,16 +10,27 @@ namespace Hotel_Booking.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IHotelRepository _hotelRepository;
         private readonly IHotelImageRepository _hotelImageRepository;
+        private readonly ProvicesService _proviceService;
 
-        public HomeController(ILogger<HomeController> logger, IHotelRepository hotelRepository, IHotelImageRepository hotelImageRepository)
+
+        public HomeController(ILogger<HomeController> logger, 
+                        IHotelRepository hotelRepository, 
+                        IHotelImageRepository hotelImageRepository, 
+                        ProvicesService provicesService
+            )
         {
             this._logger = logger;
             this._hotelRepository = hotelRepository;
             this._hotelImageRepository = hotelImageRepository;
+            this._proviceService = provicesService;
         }
 
         public async Task<IActionResult> Index()
         {
+            //Get Province data
+            List<Province> provices = _proviceService.GetProvinces();
+
+            //Get Hotel data
             var hotels = await _hotelRepository.GetAllAsync();
 
             List<HotelWithImageViewDto> result = new List<HotelWithImageViewDto>();
@@ -37,7 +48,11 @@ namespace Hotel_Booking.Controllers
                 }
             }
 
-            return View(result);
+            HomeViewDto homeViewDto = new HomeViewDto();
+            homeViewDto.Provinces = provices;
+            homeViewDto.HotelWithImageViewDtos = result;
+
+            return View(homeViewDto);
         }
 
         public IActionResult Privacy()

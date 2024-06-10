@@ -2,25 +2,36 @@
     ViewData["Title"] = "Trang chủ";
 }
 
-@model IEnumerable<Hotel_Booking.Models.DTO.HotelWithImageViewDto>
+@model Hotel_Booking.Models.DTO.HomeViewDto
+
+@{
+    var hotelWithImages = Model.HotelWithImageViewDtos;
+    var provinces = Model.Provinces;
+    var hotelName = Model.HotelName;
+    var hotelCapacity = Model.HotelCapacity;
+}
 
 <h3 class="mt-3">Lựa chọn khách sạn dành cho bạn</h3>
 
 <div class="row mb-3 mt-3">
-    <div class="col-6">
+    <div class="col-4">
         <select class="form-select">
-            <option selected>TP.HCM</option>
-            <option>Hà Nội</option>
-            <option>Cà Mau</option>
+            @foreach (var province in provinces)
+            {
+                <option value="@province.Name">@province.Name</option>
+            }
         </select>
     </div>
-    <div class="col-6">
-        <input class="form-select" placeholder="Số lượng khách" type="number"/>       
+    <div class="col-4">
+        <input class="form-select" placeholder="Số lượng khách" type="number" value="@hotelCapacity" />
+    </div>
+    <div class="col-4">
+        <input class="form-control" placeholder="Nhập tên khách sạn" type="text" value="@hotelName" />
     </div>
 </div>
 
 <div class="home d-flex gap-2">
-    @foreach (var hotel in Model)
+    @foreach (var hotel in hotelWithImages)
     {
         <a class="hotel card text-decoration-none"
            asp-controller="Hotels"
