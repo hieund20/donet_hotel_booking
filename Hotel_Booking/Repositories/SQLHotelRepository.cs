@@ -34,10 +34,25 @@ namespace Hotel_Booking.Repositories
             return existingHotel;
         }
 
-        public async Task<List<Hotel>> GetAllAsync()
+        public async Task<List<Hotel>> GetAllAsync(string? filterOn = null, string? filterQuery = null)
         {
-            var hotels = await _dBContext.Hotels.ToListAsync();
-            return hotels;
+            var hotels = _dBContext.Hotels.AsQueryable();
+
+            // Filtering
+            if (string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
+            {
+                if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    hotels = hotels.Where(x => x.Name.Contains(filterQuery));
+                }
+
+                if (filterOn.Equals("Province", StringComparison.OrdinalIgnoreCase))
+                {
+                    hotels = hotels.Where(x => x.Province.Contains(filterQuery));
+                }
+            }
+
+            return await hotels.ToListAsync();
         }
 
         public async Task<Hotel?> GetByIdAsync(Guid id)

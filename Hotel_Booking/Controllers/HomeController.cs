@@ -12,7 +12,6 @@ namespace Hotel_Booking.Controllers
         private readonly IHotelImageRepository _hotelImageRepository;
         private readonly ProvicesService _proviceService;
 
-
         public HomeController(ILogger<HomeController> logger, 
                         IHotelRepository hotelRepository, 
                         IHotelImageRepository hotelImageRepository, 
@@ -25,13 +24,16 @@ namespace Hotel_Booking.Controllers
             this._proviceService = provicesService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? hotelName, string? province)
         {
             //Get Province data
             List<Province> provices = _proviceService.GetProvinces();
 
             //Get Hotel data
-            var hotels = await _hotelRepository.GetAllAsync();
+            var hotels = await _hotelRepository.GetAllAsync("Name", hotelName);
+            var hotelProvinceFilter = await _hotelRepository.GetAllAsync("Province", province);
+
+            hotels = hotels.Intersect(hotelProvinceFilter).ToList();
 
             List<HotelWithImageViewDto> result = new List<HotelWithImageViewDto>();
 

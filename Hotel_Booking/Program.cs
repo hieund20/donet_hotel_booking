@@ -31,7 +31,6 @@ builder.Services.AddScoped<SignInManager<IdentityUser>>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<ProvicesService>();
 
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {

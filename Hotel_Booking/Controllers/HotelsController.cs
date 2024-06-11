@@ -1,4 +1,5 @@
 ﻿using Hotel_Booking.Models.Domains;
+using Hotel_Booking.Models.DTO;
 using Hotel_Booking.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,10 +8,12 @@ namespace Hotel_Booking.Controllers
     public class HotelsController : Controller
     {
         private readonly IHotelRepository _hotelRepository;
+        private readonly IHotelImageRepository _hotelImageRepository;
 
-        public HotelsController(IHotelRepository hotelRepository)
+        public HotelsController(IHotelRepository hotelRepository, IHotelImageRepository hotelImageRepository)
         {
             this._hotelRepository = hotelRepository;
+            this._hotelImageRepository = hotelImageRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -27,7 +30,13 @@ namespace Hotel_Booking.Controllers
 
             if (hotel is not null)
             {
-                return View(hotel);
+                var image = await _hotelImageRepository.GetByHotelIdAsync(id);
+
+                HotelWithImageViewDto hotelWithImage = new HotelWithImageViewDto();
+                hotelWithImage.Hotel = hotel;
+                hotelWithImage.ImageUrl = image.FilePath;
+
+                return View(hotelWithImage);
             }
 
             return View(null);
