@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Hotel_Booking.Models.Domains;
+﻿using Hotel_Booking.Models.Domains;
 using Hotel_Booking.Repositories;
 using Microsoft.AspNetCore.Mvc;
 

@@ -16,6 +16,7 @@ namespace Hotel_Booking.Data
         public DbSet<Payment> Payments { get; set; }
         public DbSet<BookingHistory> BookingHistories { get; set; }
         public DbSet<HotelImage> HotelImages { get; set; }
+        public DbSet<RoomImage> RoomImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

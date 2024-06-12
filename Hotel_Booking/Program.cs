@@ -27,6 +27,7 @@ builder.Services.AddScoped<IBookingRepository, SQLBookingRepository>();
 builder.Services.AddScoped<IUserRepository, SQLUserRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IHotelImageRepository, LocalHotelImageRepository>();
+builder.Services.AddScoped<IRoomImageRepository, LocalRoomImageRepository>();
 builder.Services.AddScoped<SignInManager<IdentityUser>>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<ProvicesService>();
