@@ -4,44 +4,48 @@
 @{
 }
 
-@model Hotel_Booking.Models.Domains.Room
+@model Hotel_Booking.Models.DTO.RoomWithImageViewDto
 
 @if (Model is not null)
 {
     <div class="room-detail">
         <div class="mt-3">
+            <img src="@Model.ImageUrl" alt="@Model.Room.Name" />
+        </div>
+
+        <div class="mt-3">
             <span class="form-label"><b>Tên phòng</b></span>
-            <p>@Model.Name</p>
+            <p>@Model.Room.Name</p>
         </div>
 
         <div class="mt-3">
             <span><b>Số phòng</b></span>
-            <p>@Model.RoomNumber</p>
+            <p>@Model.Room.RoomNumber</p>
         </div>
 
         <div class="mt-3">
             <span><b>Giá tiền</b></span>
-            <p>@Model.Price</p>
+            <p>@Model.Room.Price</p>
         </div>
 
         <div class="mt-3">
             <span><b>Loại phòng</b></span>
-            <p>@Model.RoomType</p>
+            <p>@Model.Room.RoomType</p>
         </div>
 
         <div class="mt-3">
             <span><b>Sức chứa</b></span>
-            <p>@Model.Capacity</p>
+            <p>@Model.Room.Capacity</p>
         </div>
 
         <div class="mt-3">
             <span><b>Trạng thái</b></span>
-            <p>@Model.Status</p>
+            <p>@Model.Room.Status</p>
         </div>
 
         <div class="mt-3">
             <span><b>Khách sạn</b></span>
-            <p>@Model.HotelId</p>
+            <p>@Model.Room.HotelId</p>
         </div>
     </div>
 }

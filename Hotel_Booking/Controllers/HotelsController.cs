@@ -34,7 +34,7 @@ namespace Hotel_Booking.Controllers
 
                 HotelWithImageViewDto hotelWithImage = new HotelWithImageViewDto();
                 hotelWithImage.Hotel = hotel;
-                hotelWithImage.ImageUrl = image.FilePath;
+                hotelWithImage.ImageUrl = image != null ? image.FilePath : "";
 
                 return View(hotelWithImage);
             }

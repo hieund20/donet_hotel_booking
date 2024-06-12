@@ -36,14 +36,6 @@ namespace Hotel_Booking.Controllers
                 return Unauthorized();
             }
 
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
-            {
-                return Unauthorized();
-            }
-
-            string userId = userIdClaim.Value;
-
             Booking newBooking = new Booking();
             newBooking.Id = Guid.NewGuid();
             newBooking.BookingDate = DateTime.Now;

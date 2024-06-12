@@ -1,16 +1,19 @@
 ﻿using Hotel_Booking.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Hotel_Booking.Models.Domains;
+using Hotel_Booking.Models.DTO;
 
 namespace Hotel_Booking.Controllers
 {
     public class RoomsController : Controller
     {
         private readonly IRoomRepository _roomRepository;
+        private readonly IRoomImageRepository _roomImageRepository;
 
-        public RoomsController(IRoomRepository roomRepository)
+        public RoomsController(IRoomRepository roomRepository, IRoomImageRepository roomImageRepository)
         {
             this._roomRepository = roomRepository;
+            this._roomImageRepository = roomImageRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -25,17 +28,38 @@ namespace Hotel_Booking.Controllers
         {
             var rooms = await _roomRepository.GetAllByHotelIdAsync(hotelId);
 
-            return View("ClientRoomsView", rooms);
+            List<RoomWithImageViewDto> result = new List<RoomWithImageViewDto>();
+
+            foreach (var item in rooms)
+            {
+                var image = await _roomImageRepository.GetByRoomIdAsync(item.Id);
+                if (image != null)
+                {
+                    result.Add(new RoomWithImageViewDto
+                    {
+                        Room = item,
+                        ImageUrl = image.FilePath
+                    });
+                }
+            }
+
+            return View("ClientRoomsView", result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Detail(Guid id)
+        public async Task<IActionResult> Detail([FromRoute] Guid id)
         {
             var room = await _roomRepository.GetByIdAsync(id);
 
             if (room is not null)
             {
-                return View(room);
+                var image = await _roomImageRepository.GetByRoomIdAsync(id);
+
+                RoomWithImageViewDto roomWithImage = new RoomWithImageViewDto();
+                roomWithImage.Room = room;
+                roomWithImage.ImageUrl = image != null ? image.FilePath: "";
+
+                return View(roomWithImage);
             }
 
             return View(null);
